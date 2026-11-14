@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MGMP Matematika Komda Majenang</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f2f4f7;
+    color: #222;
+  }
+  header {
+    background: linear-gradient(90deg, #1e3a8a, #2563eb 55%, #3b82f6);
+    color: #fff;
+    padding: 28px 16px 20px;
+    text-align: center;
+  }
+  header h1 { margin: 0 0 6px; font-size: 26px; }
+  header p { margin: 0; font-size: 15px; }
+  nav {
+    background: #1e3a8a;
+    padding: 10px 16px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+  }
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 4px;
+    padding: 6px 10px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 6px;
+  }
+  nav a:hover { text-decoration: underline; }
+  nav a.aktif { background: rgba(255, 255, 255, 0.25); }
+  main { max-width: 760px; margin: 0 auto; padding: 16px; }
+  section {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    padding: 24px;
+    margin-bottom: 20px;
+    scroll-margin-top: 70px;
+  }
+  section h2 { margin-top: 0; color: #1d4ed8; font-size: 20px; }
+  .intro { font-size: 13px; font-style: italic; color: #666; margin: 0 0 8px; }
+  label { display: block; font-weight: bold; font-size: 14px; margin: 14px 0 6px; }
+  form > label { color: #2563eb; font-size: 17px; }
+  label small { font-weight: normal; color: #666; }
+  input {
+    width: 100%;
+    padding: 11px 12px;
+    font-size: 15px;
+    border: 1px solid #c9d1d9;
+    border-radius: 8px;
+  }
+  input:focus { outline: none; border-color: #2563eb; }
+  button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background: #2563eb;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  button:hover { background: #1d4ed8; }
+  button:disabled { background: #9db8b5; cursor: wait; }
+  .pesan { margin-top: 14px; font-size: 14px; min-height: 18px; }
+  .pesan.salah { color: #b3261e; }
+  .pesan.benar { color: #1d4ed8; }
+  .hasil {
+    margin-top: 16px;
+    border: 1px solid #c9d1d9;
+    border-radius: 8px;
+    padding: 16px;
+    display: none;
+  }
+  .hasil h3 { margin: 0 0 10px; color: #1d4ed8; font-size: 16px; }
+  .hasil p { margin: 8px 0; font-size: 15px; word-wrap: break-word; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #e5e7eb; }
+  th { color: #1d4ed8; }
+  footer { text-align: center; color: #666; font-size: 13px; padding: 20px 16px 32px; }
+  .pilihan label { display: inline-block; font-weight: normal; margin: 6px 14px 6px 0; }
+  .pilihan input { width: auto; }
+  textarea { width: 100%; padding: 11px 12px; font-size: 15px; border: 1px solid #c9d1d9; border-radius: 8px; font-family: inherit; }
+  select { width: 100%; padding: 11px 12px; font-size: 15px; border: 1px solid #c9d1d9; border-radius: 8px; background: #fff; }
+  .lainnya { display: none; margin-top: 8px; }
+  #bagianPns { display: none; border-top: 1px solid #e5e7eb; margin-top: 20px; padding-top: 8px; }
+  #logoCek { display: none; max-width: 100%; margin: 0 auto 12px; }
+  #fabKontak { display: none; position: fixed; bottom: 16px; right: 16px; z-index: 999; text-align: right; }
+  #fabKontak .fab-utama {
+    width: 56px; height: 56px; border-radius: 50%; background: #2563eb; color: #fff;
+    font-size: 30px; line-height: 56px; text-align: center; cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0,0,0,.25); margin-left: auto; user-select: none;
+  }
+  #fabKontak .fab-opsi { display: none; margin-bottom: 10px; }
+  #fabKontak.terbuka .fab-opsi, #fabKontak:hover .fab-opsi { display: block; }
+  #fabKontak .fab-opsi a {
+    display: block; background: #fff; color: #222; text-decoration: none;
+    font-size: 14px; font-weight: bold; padding: 10px 14px; border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.2); margin-bottom: 8px; white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>MGMP Matematika Komda Majenang</h1>
+  <p>Musyawarah Guru Mata Pelajaran Matematika &mdash; Komda Majenang, Kabupaten Cilacap</p>
+</header>
+
+<nav>
+  <a href="#cek">Cek Data</a>
+  <a href="#daftar">Pendaftaran</a>
+  <a href="#ubah">Ubah Data</a>
+  <a href="#anggota">Daftar Anggota</a>
+  <a href="#admin">Admin</a>
+</nav>
+
+<main>
+
+  <section id="cek">
+    <img id="logoCek" alt="Logo MGMP">
+    <h2 id="judulCek">Login dan Cek Data</h2>
+    <form id="formCek">
+      <label for="input1" id="labelInput1">Username</label>
+      <input type="text" id="input1" list="daftarNama" autocomplete="off" required>
+      <datalist id="daftarNama"></datalist>
+
+      <label for="input2" id="labelInput2">Password</label>
+      <input type="password" id="input2" required>
+
+      <button type="submit" id="tombolCek">Cek Data</button>
+    </form>
+    <p id="pesanCek" class="pesan"></p>
+    <div id="hasilCek" class="hasil">
+      <h3 id="judulHasil">Data Anggota</h3>
+      <div id="isiHasil"></div>
+    </div>
+  </section>
+
+  <section id="daftar">
+    <h2>Form Pendataan Anggota</h2>
+    <p class="intro">Khusus bagi guru matematika SMP Komda Majenang yang namanya belum ada di database. Pendaftaran akan diverifikasi admin sebelum diaktifkan.</p>
+<form id="formDaftar">
+      <label for="sekolah">Nama Sekolah *</label>
+      <select id="sekolah" required>
+        <option value="">-- Pilih sekolah --</option>
+        <option value="SMP NEGERI 1 MAJENANG">SMP NEGERI 1 MAJENANG</option>
+        <option value="SMP NEGERI 2 MAJENANG">SMP NEGERI 2 MAJENANG</option>
+        <option value="SMP NEGERI 3 MAJENANG">SMP NEGERI 3 MAJENANG</option>
+        <option value="SMP NEGERI 4 MAJENANG">SMP NEGERI 4 MAJENANG</option>
+        <option value="SMP NEGERI SATAP 5 MAJENANG">SMP NEGERI SATAP 5 MAJENANG</option>
+        <option value="SMP NEGERI SATAP 6 MAJENANG">SMP NEGERI SATAP 6 MAJENANG</option>
+        <option value="SMP NEGERI SATAP 7 MAJENANG">SMP NEGERI SATAP 7 MAJENANG</option>
+        <option value="SMP ISLAM MAJENANG">SMP ISLAM MAJENANG</option>
+        <option value="SMP MUHAMMADIYAH MAJENANG">SMP MUHAMMADIYAH MAJENANG</option>
+        <option value="SMP YOS SUDARSO MAJENANG">SMP YOS SUDARSO MAJENANG</option>
+        <option value="SMP DIPONEGORO MAJENANG">SMP DIPONEGORO MAJENANG</option>
+        <option value="SMP MA`ARIF NU 1 MAJENANG">SMP MA`ARIF NU 1 MAJENANG</option>
+        <option value="SMP MAARIF NU 2 MAJENANG">SMP MAARIF NU 2 MAJENANG</option>
+        <option value="SMP ALMA ATA">SMP ALMA ATA</option>
+        <option value="SMP TERPADU SABILUNNAJAH MAJENANG">SMP TERPADU SABILUNNAJAH MAJENANG</option>
+        <option value="SMP NEGERI 1 CIMANGGU">SMP NEGERI 1 CIMANGGU</option>
+        <option value="SMP NEGERI 2 CIMANGGU">SMP NEGERI 2 CIMANGGU</option>
+        <option value="SMP NEGERI SATU ATAP 1 CIMANGGU">SMP NEGERI SATU ATAP 1 CIMANGGU</option>
+        <option value="SMP NEGERI SATAP 4 CIMANGGU">SMP NEGERI SATAP 4 CIMANGGU</option>
+        <option value="SMP PGRI 18 CIMANGGU">SMP PGRI 18 CIMANGGU</option>
+        <option value="SMP DIPONEGORO CIMANGGU">SMP DIPONEGORO CIMANGGU</option>
+        <option value="SMP MAARIF NU CIMANGGU">SMP MAARIF NU CIMANGGU</option>
+        <option value="SMP RADEN FATAH CIMANGGU">SMP RADEN FATAH CIMANGGU</option>
+        <option value="SMP DARUSSALAM CIMANGGU">SMP DARUSSALAM CIMANGGU</option>
+        <option value="SMP MUHAMMADIYAH CIMANGGU">SMP MUHAMMADIYAH CIMANGGU</option>
+        <option value="SMP IT AL HAMBRA CIMANGGU">SMP IT AL HAMBRA CIMANGGU</option>
+        <option value="SMP NEGERI 1 WANAREJA">SMP NEGERI 1 WANAREJA</option>
+        <option value="SMP NEGERI 2 WANAREJA">SMP NEGERI 2 WANAREJA</option>
+        <option value="SMP NEGERI 3 WANAREJA">SMP NEGERI 3 WANAREJA</option>
+        <option value="SMP NEGERI SATU ATAP 1 WANAREJA">SMP NEGERI SATU ATAP 1 WANAREJA</option>
+        <option value="SMP MA'ARIF NU 01 WANAREJA">SMP MA'ARIF NU 01 WANAREJA</option>
+        <option value="SMP ANAK SOLEH WANAREJA">SMP ANAK SOLEH WANAREJA</option>
+        <option value="SMP PGRI 7 WANAREJA">SMP PGRI 7 WANAREJA</option>
+        <option value="SMP MUHAMMADIYAH 1 WANAREJA">SMP MUHAMMADIYAH 1 WANAREJA</option>
+        <option value="SMP MUHAMMADIYAH 2 WANAREJA">SMP MUHAMMADIYAH 2 WANAREJA</option>
+        <option value="SMP AS SA'IDIYYAH WANAREJA">SMP AS SA'IDIYYAH WANAREJA</option>
+        <option value="SMP NEGERI 1 DAYEUHLUHUR">SMP NEGERI 1 DAYEUHLUHUR</option>
+        <option value="SMP NEGERI 2 DAYEUHLUHUR">SMP NEGERI 2 DAYEUHLUHUR</option>
+        <option value="SMP MUHAMMADIYAH 1 DAYEUHLUHUR">SMP MUHAMMADIYAH 1 DAYEUHLUHUR</option>
+        <option value="SMP MUHAMMADIYAH 2 DAYEUHLUHUR">SMP MUHAMMADIYAH 2 DAYEUHLUHUR</option>
+        <option value="SMP MUHAMMADIYAH 3 DAYEUHLUHUR">SMP MUHAMMADIYAH 3 DAYEUHLUHUR</option>
+        <option value="SMP PGRI 12 DAYEUHLUHUR">SMP PGRI 12 DAYEUHLUHUR</option>
+        <option value="SMP PGRI CARUY">SMP PGRI CARUY</option>
+        <option value="SMP ISLAM CARUY">SMP ISLAM CARUY</option>
+        <option value="Lainnya">Lainnya (tulis sendiri di bawah)</option>
+      </select>
+      <input type="text" id="sekolahLain" class="lainnya" placeholder="Tulis nama sekolah">
+      <p style="font-size:13px;color:#666;margin:6px 0 0">Jika nama sekolah belum ada, pilih Lainnya dan tulis sendiri.</p>
+
+      <label for="nama">Nama Lengkap dan Gelar *</label>
+      <input type="text" id="nama" placeholder="Contoh: ZULKARNAEN, S.Pd." required>
+      <p style="font-size:13px;color:#666;margin:6px 0 0">Penulisan menggunakan huruf kapital.</p>
+
+      <label>Tempat Lahir *</label>
+      <div class="pilihan">
+        <label><input type="radio" name="tempatLahir" value="Cilacap" required> Cilacap</label>
+        <label><input type="radio" name="tempatLahir" value="Lainnya"> Lainnya</label>
+      </div>
+      <input type="text" id="tempatLahirLain" class="lainnya" placeholder="Tulis tempat lahir">
+
+      <label for="tglLahir">Tanggal Lahir *</label>
+      <input type="text" id="tglLahir" inputmode="numeric" placeholder="dd/mm/yyyy" maxlength="10" required>
+      <p id="infoUsia" style="font-size:13px;color:#666;margin:6px 0 0"></p>
+
+      <label for="pendidikan">Pendidikan Terakhir *</label>
+      <select id="pendidikan" required>
+        <option value="">-- Pilih --</option>
+        <option value="D2">D2</option>
+        <option value="D3">D3</option>
+        <option value="S1">S1</option>
+        <option value="S2">S2</option>
+      </select>
+
+      <label for="jurusan">Jurusan *</label>
+      <input type="text" id="jurusan" required>
+
+      <label for="emailPribadi">Surel/Email (pribadi) *</label>
+      <input type="email" id="emailPribadi" placeholder="Contoh: nama@email.com" required>
+
+      <label for="emailBelajar">Surel/Email belajar.id *</label>
+      <input type="text" id="emailBelajar" placeholder="-" required>
+      <p style="font-size:13px;color:#666;margin:6px 0 0">Jika tidak memiliki isi dengan tanda strip (-).</p>
+
+      <label for="alamat">Alamat Rumah *</label>
+      <textarea id="alamat" rows="3" required></textarea>
+
+      <label for="nuptk">NUPTK *</label>
+      <input type="text" id="nuptk" placeholder="-" required>
+      <p style="font-size:13px;color:#666;margin:6px 0 0">Jika tidak memiliki isi dengan tanda strip (-).</p>
+
+      <label>Sertifikat Pendidik *</label>
+      <div class="pilihan">
+        <label><input type="radio" name="sertifikat" value="Sudah" required> Sudah</label>
+        <label><input type="radio" name="sertifikat" value="Belum"> Belum</label>
+      </div>
+
+      <label for="noHp">No HP (WhatsApp) *</label>
+      <input type="tel" id="noHp" placeholder="Contoh: 081234567890" required>
+
+      <label for="tmt">TMT sebagai Guru *</label>
+      <input type="text" id="tmt" inputmode="numeric" placeholder="dd/mm/yyyy" maxlength="10" required>
+
+      <label for="telegram">Akun Telegram *</label>
+      <input type="text" id="telegram" placeholder="-" required>
+      <p style="font-size:13px;color:#666;margin:6px 0 0">Jika tidak memiliki isi dengan tanda strip (-).</p>
+
+      <label>Status Kepegawaian *</label>
+      <div class="pilihan">
+        <label><input type="radio" name="status" value="PNS" required> PNS</label>
+        <label><input type="radio" name="status" value="PPPK"> PPPK</label>
+        <label><input type="radio" name="status" value="GTT/GTY"> GTT/GTY</label>
+        <label><input type="radio" name="status" value="Lainnya"> Lainnya</label>
+      </div>
+      <input type="text" id="statusLain" class="lainnya" placeholder="Tulis status kepegawaian">
+
+      <div id="bagianPns">
+        <h3 style="color:#1d4ed8;margin:8px 0 0">Khusus PNS/PPPK</h3>
+        <label for="nip">NIP *</label>
+        <input type="text" id="nip" inputmode="numeric" maxlength="18" placeholder="18 digit angka">
+        <label for="pangkat">Pangkat/Golongan *</label>
+        <select id="pangkat">
+          <option value="">-- Pilih --</option>
+        <option value="Penata Muda, III/a">Penata Muda, III/a</option>
+        <option value="Penata Muda Tingkat I, III/b">Penata Muda Tingkat I, III/b</option>
+        <option value="Penata, IIIc">Penata, IIIc</option>
+        <option value="Penata Tingkat I, IIId">Penata Tingkat I, IIId</option>
+        <option value="Pembina, IV/a">Pembina, IV/a</option>
+        <option value="Pembina Tingkat I, IV/b">Pembina Tingkat I, IV/b</option>
+        <option value="Pembina Utama Muda, IV/c">Pembina Utama Muda, IV/c</option>
+        <option value="Pembina Utama Madya, IV/d">Pembina Utama Madya, IV/d</option>
+        <option value="Pembina Utama, IV/e">Pembina Utama, IV/e</option>
+        <option value="-  / IX">-  / IX</option>
+        </select>
+      </div>
+
+      <button type="submit" id="tombolDaftar">Kirim Pendaftaran</button>
+      <button type="button" id="tombolBatalUbah" style="display:none;background:#64748b;margin-top:10px">Batalkan Perubahan</button>
+    </form>
+    <p id="pesanDaftar" class="pesan"></p>
+  </section>
+
+  <section id="ubah">
+    <h2>Ubah Data Anggota</h2>
+    <p>Untuk memperbarui data Anda (misalnya pangkat/golongan yang naik), cari dulu data Anda dengan nama dan nomor WA yang terdaftar.</p>
+    <form id="formCari">
+      <label for="namaCari">Nama Lengkap dan Gelar *</label>
+      <input type="text" id="namaCari" placeholder="Contoh: ZULKARNAEN, S.Pd." required>
+      <label for="waCari">No HP (WhatsApp) terdaftar *</label>
+      <input type="tel" id="waCari" placeholder="Contoh: 081234567890" required>
+      <button type="submit" id="tombolCari">Cari Data Saya</button>
+    </form>
+    <p id="pesanCari" class="pesan"></p>
+  </section>
+
+  <section id="anggota">
+    <h2>Daftar Anggota</h2>
+    <p id="pesanAnggota" class="pesan">Memuat daftar anggota...</p>
+    <table id="tabelAnggota" style="display:none">
+      <thead>
+        <tr><th>Nama</th><th>Sekolah</th><th>Status</th></tr>
+      </thead>
+      <tbody id="isiAnggota"></tbody>
+    </table>
+  </section>
+
+  <section id="admin">
+    <h2>Admin</h2>
+    <p>Khusus admin MGMP. Masukkan PIN Admin untuk melihat dan memverifikasi pendaftar.</p>
+    <form id="formAdminMasuk">
+      <label for="pinAdmin">PIN Admin *</label>
+      <input type="password" id="pinAdmin" inputmode="numeric" placeholder="Masukkan PIN Admin" required>
+      <button type="submit" id="tombolMasukAdmin">Masuk</button>
+    </form>
+    <p id="pesanAdmin" class="pesan"></p>
+    <div id="panelAdmin" style="display:none">
+      <p><b id="ringkasanAdmin"></b></p>
+      <div style="overflow-x:auto">
+        <table id="tabelAdmin" style="display:none">
+          <thead>
+            <tr><th>Nama</th><th>Sekolah</th><th>Status Kepegawaian</th><th>NIP</th><th>Pangkat</th><th>No WA</th><th>Status</th><th>Aksi</th></tr>
+          </thead>
+          <tbody id="isiAdmin"></tbody>
+        </table>
+      </div>
+      <button type="button" id="tombolMuatAdmin" style="background:#64748b">Muat Ulang</button>
+      <button type="button" id="tombolKeluarAdmin" style="background:#64748b">Keluar</button>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  MGMP Matematika Komda Majenang &mdash; Kabupaten Cilacap
+</footer>
+
+<div id="fabKontak">
+  <div class="fab-opsi">
+    <a id="tautanWa" target="_blank">💬 WhatsApp Admin</a>
+    <a id="tautanEmail" target="_blank">✉️ Email Admin</a>
+  </div>
+  <div class="fab-utama" id="fabUtama">+</div>
+</div>
+
+<script>
+  // URL Web App backend (Apps Script). Ganti bila Bapak membuat deployment baru.
+  var WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzHSNmTmGKIvfIoeWjLnheAgt5Wa9zbfn0yTuKFRKmq1q_OEBaR1F-boz2sqNwi0eHu/exec';
+
+  // --- Menu: tiap menu menampilkan hanya bagiannya sendiri ---
+  var BAGIAN = ['cek', 'daftar', 'ubah', 'anggota', 'admin'];
+  function tampilkanBagian(id) {
+    BAGIAN.forEach(function(b) {
+      document.getElementById(b).style.display = (b === id) ? '' : 'none';
+    });
+    document.querySelectorAll('nav a').forEach(function(a) {
+      a.classList.toggle('aktif', a.getAttribute('href') === '#' + id);
+    });
+    try { history.replaceState(null, '', '#' + id); } catch (e) {}
+    window.scrollTo(0, 0);
+  }
+  var modeUbah = null; // {namaAsal, waAsal} bila sedang mengubah data
+  function batalUbah() {
+    modeUbah = null;
+    document.getElementById('formDaftar').reset();
+    document.getElementById('tombolDaftar').textContent = 'Kirim Pendaftaran';
+    document.getElementById('tombolBatalUbah').style.display = 'none';
+    document.getElementById('infoUsia').textContent = '';
+    document.getElementById('bagianPns').style.display = 'none';
+    document.getElementById('nip').required = false;
+    document.getElementById('pangkat').required = false;
+    ['tempatLahirLain', 'sekolahLain', 'statusLain'].forEach(function(id) {
+      var el = document.getElementById(id);
+      el.style.display = 'none';
+      el.required = false;
+      el.value = '';
+    });
+  }
+  document.querySelectorAll('nav a').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      var tujuan = a.getAttribute('href').slice(1);
+      if (tujuan === 'daftar' && modeUbah) batalUbah();
+      tampilkanBagian(tujuan);
+    });
+  });
+  var bagianAwal = (location.hash || '#cek').slice(1);
+  tampilkanBagian(BAGIAN.indexOf(bagianAwal) === -1 ? 'cek' : bagianAwal);
+
+  // Logo: pakai alamat dari Settings F2 bila ada, kalau tidak pakai logo.jpg
+  // di folder yang sama (sembunyikan bila file tidak ditemukan).
+  function tampilkanLogo(sumber, lebar, radius) {
+    var logo = document.getElementById('logoCek');
+    logo.onerror = function() { logo.style.display = 'none'; };
+    logo.src = sumber;
+    logo.style.width = (lebar || 120) + 'px';
+    logo.style.borderRadius = (radius || 8) + 'px';
+    logo.style.display = 'block';
+  }
+
+  // --- Muat pengaturan (judul, label, daftar pilihan) dari backend ---
+  fetch(WEBAPP_URL + '?action=pengaturan')
+    .then(function(r) { return r.json(); })
+    .then(function(p) {
+      if (!p || !p.ok) return;
+      if (p.judul) document.getElementById('judulCek').textContent = p.judul;
+      if (p.labelUsername) document.getElementById('labelInput1').textContent = p.labelUsername;
+      if (p.labelPassword) document.getElementById('labelInput2').textContent = p.labelPassword;
+      if (p.labelTombol) document.getElementById('tombolCek').textContent = p.labelTombol;
+      if (p.judulPopup) document.getElementById('judulHasil').textContent = p.judulPopup;
+      if (p.opsi && p.opsi.length) {
+        document.getElementById('daftarNama').innerHTML =
+          p.opsi.map(function(o) { return '<option value="' + o + '">'; }).join('');
+      }
+      tampilkanLogo(p.logo || 'logo.jpg', p.logoWidth, p.borderRadius);
+      var adaKontak = false;
+      var waBersih = p.whatsApp ? String(p.whatsApp).replace(/\D/g, '') : '';
+      if (waBersih) {
+        document.getElementById('tautanWa').href = 'https://wa.me/' + waBersih;
+        adaKontak = true;
+      } else {
+        document.getElementById('tautanWa').style.display = 'none';
+      }
+      if (p.adminEmail) {
+        document.getElementById('tautanEmail').href = 'mailto:' + p.adminEmail;
+        adaKontak = true;
+      } else {
+        document.getElementById('tautanEmail').style.display = 'none';
+      }
+      if (adaKontak) document.getElementById('fabKontak').style.display = 'block';
+    })
+    .catch(function() { /* label baku tetap dipakai bila backend belum siap */
+      tampilkanLogo('logo.jpg', 120, 8);
+    });
+
+  document.getElementById('fabUtama').addEventListener('click', function() {
+    document.getElementById('fabKontak').classList.toggle('terbuka');
+  });
+
+  // --- Cek Data ---
+  document.getElementById('formCek').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var input1 = document.getElementById('input1').value.trim();
+    var input2 = document.getElementById('input2').value;
+    var pesan = document.getElementById('pesanCek');
+    var hasil = document.getElementById('hasilCek');
+    var tombol = document.getElementById('tombolCek');
+    pesan.textContent = 'Memeriksa data...';
+    pesan.className = 'pesan';
+    hasil.style.display = 'none';
+    tombol.disabled = true;
+    fetch(WEBAPP_URL + '?action=cek&input1=' + encodeURIComponent(input1) + '&input2=' + encodeURIComponent(input2))
+      .then(function(r) { return r.json(); })
+      .then(function(p) {
+        tombol.disabled = false;
+        if (!p || !p.ok || !p.ditemukan) {
+          pesan.textContent = 'Data tidak ditemukan. Periksa kembali isian Anda.';
+          pesan.className = 'pesan salah';
+          return;
+        }
+        pesan.textContent = '';
+        var html = '';
+        p.data.forEach(function(nilai, i) {
+          var label = (p.label && p.label[i]) || ('Data ' + (i + 1));
+          html += '<p><b>' + label + ':</b> ' + nilai + '</p>';
+        });
+        document.getElementById('isiHasil').innerHTML = html;
+        hasil.style.display = 'block';
+      })
+      .catch(function() {
+        tombol.disabled = false;
+        pesan.textContent = 'Tidak dapat terhubung ke server. Coba lagi sebentar lagi.';
+        pesan.className = 'pesan salah';
+      });
+  });
+
+  // --- Logika isian bersyarat (Lainnya + bagian PNS/PPPK) ---
+  function nilaiRadio(nama) {
+    var dipilih = document.querySelector('input[name="' + nama + '"]:checked');
+    return dipilih ? dipilih.value : '';
+  }
+  function nilaiPilihan(nama, idLain) {
+    var v = nilaiRadio(nama);
+    if (v === 'Lainnya') {
+      var lain = document.getElementById(idLain);
+      return lain ? lain.value.trim() : '';
+    }
+    return v;
+  }
+  function aturLainnya(nama, idLain) {
+    var lain = document.getElementById(idLain);
+    var tampil = nilaiRadio(nama) === 'Lainnya';
+    lain.style.display = tampil ? 'block' : 'none';
+    lain.required = tampil;
+    if (!tampil) lain.value = '';
+  }
+  function pasangLainnya(nama, idLain) {
+    document.querySelectorAll('input[name="' + nama + '"]').forEach(function(r) {
+      r.addEventListener('change', function() { aturLainnya(nama, idLain); });
+    });
+  }
+  function aturSekolahLain() {
+    var lain = document.getElementById('sekolahLain');
+    var tampil = document.getElementById('sekolah').value === 'Lainnya';
+    lain.style.display = tampil ? 'block' : 'none';
+    lain.required = tampil;
+    if (!tampil) lain.value = '';
+  }
+  function nilaiSekolah() {
+    if (document.getElementById('sekolah').value === 'Lainnya') {
+      return document.getElementById('sekolahLain').value.trim();
+    }
+    return document.getElementById('sekolah').value;
+  }
+  function aturBagianPns() {
+    var st = nilaiRadio('status');
+    var tampil = (st === 'PNS' || st === 'PPPK');
+    document.getElementById('bagianPns').style.display = tampil ? 'block' : 'none';
+    document.getElementById('nip').required = tampil;
+    document.getElementById('pangkat').required = tampil;
+    if (!tampil) {
+      document.getElementById('nip').value = '';
+      document.getElementById('pangkat').value = '';
+    }
+  }
+  pasangLainnya('tempatLahir', 'tempatLahirLain');
+  pasangLainnya('status', 'statusLain');
+  document.getElementById('sekolah').addEventListener('change', aturSekolahLain);
+  document.querySelectorAll('input[name="status"]').forEach(function(r) {
+    r.addEventListener('change', aturBagianPns);
+  });
+  // --- Tanggal: tampilan dd/mm/yyyy, server memakai yyyy-mm-dd ---
+  function tanggalKeISO(s) {
+    var m = String(s || '').trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (!m) return '';
+    var d = new Date(+m[3], +m[2] - 1, +m[1]);
+    if (d.getFullYear() !== +m[3] || d.getMonth() !== +m[2] - 1 || d.getDate() !== +m[1]) return '';
+    return m[3] + '-' + m[2].padStart(2, '0') + '-' + m[1].padStart(2, '0');
+  }
+  function tanggalDariISO(s) {
+    var iso = keTanggalISO(s);
+    if (!iso) return '';
+    var p = iso.split('-');
+    return p[2] + '/' + p[1] + '/' + p[0];
+  }
+  // --- Usia otomatis dari tanggal lahir ---
+  function hitungUsia(tgl) {
+    var iso = tanggalKeISO(tgl);
+    if (!iso) return '';
+    var lahir = new Date(iso + 'T00:00:00');
+    if (isNaN(lahir.getTime())) return '';
+    var kini = new Date();
+    var usia = kini.getFullYear() - lahir.getFullYear();
+    var m = kini.getMonth() - lahir.getMonth();
+    if (m < 0 || (m === 0 && kini.getDate() < lahir.getDate())) usia--;
+    return usia;
+  }
+  function tampilkanUsia() {
+    var usia = hitungUsia(document.getElementById('tglLahir').value);
+    document.getElementById('infoUsia').textContent = (usia === '') ? '' : 'Usia: ' + usia + ' tahun (dihitung otomatis dari tanggal lahir).';
+  }
+  document.getElementById('tglLahir').addEventListener('change', tampilkanUsia);
+  function pasangFormatTanggal(id) {
+    document.getElementById(id).addEventListener('input', function() {
+      var v = this.value.replace(/\D/g, '').slice(0, 8);
+      if (v.length > 4) this.value = v.slice(0, 2) + '/' + v.slice(2, 4) + '/' + v.slice(4);
+      else if (v.length > 2) this.value = v.slice(0, 2) + '/' + v.slice(2);
+      else this.value = v;
+    });
+  }
+  pasangFormatTanggal('tglLahir');
+  pasangFormatTanggal('tmt');
+  // --- Isi formulir dari data yang ditemukan (menu Ubah Data) ---
+  function keTanggalISO(s) {
+    if (!s) return '';
+    s = String(s).trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+    var m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (m) return m[3] + '-' + m[2].padStart(2, '0') + '-' + m[1].padStart(2, '0');
+    var d = new Date(s);
+    if (!isNaN(d.getTime())) {
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+    return '';
+  }
+  function pilihRadio(nama, nilai, idLain) {
+    var radios = document.querySelectorAll('input[name="' + nama + '"]');
+    var cocok = false;
+    radios.forEach(function(r) { if (r.value === nilai) { r.checked = true; cocok = true; } });
+    if (!cocok && idLain) {
+      radios.forEach(function(r) { if (r.value === 'Lainnya') r.checked = true; });
+      document.getElementById(idLain).value = nilai || '';
+    }
+  }
+  function isiForm(d) {
+    var selSekolah = document.getElementById('sekolah');
+    var adaSekolah = Array.prototype.some.call(selSekolah.options, function(o) { return o.value === d.sekolah; });
+    if (adaSekolah) {
+      selSekolah.value = d.sekolah;
+    } else {
+      selSekolah.value = 'Lainnya';
+      document.getElementById('sekolahLain').value = d.sekolah || '';
+    }
+    aturSekolahLain();
+    document.getElementById('nama').value = d.nama || '';
+    pilihRadio('tempatLahir', d.tempatLahir, 'tempatLahirLain');
+    aturLainnya('tempatLahir', 'tempatLahirLain');
+    document.getElementById('tglLahir').value = tanggalDariISO(d.tglLahir);
+    tampilkanUsia();
+    document.getElementById('pendidikan').value = d.pendidikan || '';
+    document.getElementById('jurusan').value = d.jurusan || '';
+    document.getElementById('emailPribadi').value = d.emailPribadi || '';
+    document.getElementById('emailBelajar').value = d.emailBelajar || '';
+    document.getElementById('alamat').value = d.alamat || '';
+    document.getElementById('nuptk').value = d.nuptk || '';
+    pilihRadio('sertifikat', d.sertifikat, null);
+    document.getElementById('noHp').value = d.noHp || '';
+    document.getElementById('tmt').value = tanggalDariISO(d.tmt);
+    document.getElementById('telegram').value = d.telegram || '';
+    pilihRadio('status', d.status, 'statusLain');
+    aturLainnya('status', 'statusLain');
+    aturBagianPns();
+    document.getElementById('nip').value = d.nip || '';
+    document.getElementById('pangkat').value = d.pangkat || '';
+    document.getElementById('pesanDaftar').textContent = '';
+  }
+
+  // --- Pendaftaran Anggota ---
+  document.getElementById('formDaftar').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var pesan = document.getElementById('pesanDaftar');
+    var tombol = document.getElementById('tombolDaftar');
+    var tglLahirISO = tanggalKeISO(document.getElementById('tglLahir').value);
+    var tmtISO = tanggalKeISO(document.getElementById('tmt').value);
+    if (!tglLahirISO) {
+      pesan.textContent = 'Tanggal lahir tidak valid. Gunakan format dd/mm/yyyy, contoh 14/11/1980.';
+      pesan.className = 'pesan salah';
+      return;
+    }
+    if (!tmtISO) {
+      pesan.textContent = 'TMT sebagai guru tidak valid. Gunakan format dd/mm/yyyy.';
+      pesan.className = 'pesan salah';
+      return;
+    }
+    var data = {
+      sekolah: nilaiSekolah(),
+      nama: document.getElementById('nama').value.trim(),
+      tempatLahir: nilaiPilihan('tempatLahir', 'tempatLahirLain'),
+      tglLahir: tglLahirISO,
+      pendidikan: document.getElementById('pendidikan').value,
+      jurusan: document.getElementById('jurusan').value.trim(),
+      emailPribadi: document.getElementById('emailPribadi').value.trim(),
+      emailBelajar: document.getElementById('emailBelajar').value.trim(),
+      alamat: document.getElementById('alamat').value.trim(),
+      nuptk: document.getElementById('nuptk').value.trim(),
+      sertifikat: nilaiRadio('sertifikat'),
+      noHp: document.getElementById('noHp').value.trim(),
+      tmt: tmtISO,
+      telegram: document.getElementById('telegram').value.trim(),
+      status: nilaiPilihan('status', 'statusLain'),
+      nip: document.getElementById('nip').value.trim(),
+      pangkat: document.getElementById('pangkat').value
+    };
+    pesan.textContent = modeUbah ? 'Menyimpan perubahan...' : 'Mengirim pendaftaran...';
+    pesan.className = 'pesan';
+    tombol.disabled = true;
+    var urlKirim = modeUbah ? (WEBAPP_URL + '?action=ubah') : WEBAPP_URL;
+    var muatan = modeUbah ? Object.assign({}, data, { namaAsal: modeUbah.namaAsal, waAsal: modeUbah.waAsal }) : data;
+    fetch(urlKirim, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(muatan)
+    })
+      .then(function(r) { return r.json(); })
+      .then(function(p) {
+        tombol.disabled = false;
+        if (p && p.ok) {
+          pesan.textContent = p.pesan;
+          pesan.className = 'pesan benar';
+          if (modeUbah) { batalUbah(); } else { document.getElementById('formDaftar').reset(); }
+        } else {
+          pesan.textContent = (p && p.pesan) || 'Pendaftaran gagal dikirim.';
+          pesan.className = 'pesan salah';
+        }
+      })
+      .catch(function() {
+        tombol.disabled = false;
+        pesan.textContent = 'Tidak dapat terhubung ke server. Coba lagi sebentar lagi.';
+        pesan.className = 'pesan salah';
+      });
+  });
+
+  // --- Ubah Data: cari data sendiri, lalu ubah lewat formulir pendaftaran ---
+  document.getElementById('formCari').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var nama = document.getElementById('namaCari').value.trim();
+    var wa = document.getElementById('waCari').value.trim();
+    var pesan = document.getElementById('pesanCari');
+    var tombol = document.getElementById('tombolCari');
+    pesan.textContent = 'Mencari data...';
+    pesan.className = 'pesan';
+    tombol.disabled = true;
+    fetch(WEBAPP_URL + '?action=cari&nama=' + encodeURIComponent(nama) + '&wa=' + encodeURIComponent(wa))
+      .then(function(r) { return r.json(); })
+      .then(function(p) {
+        tombol.disabled = false;
+        if (!p || !p.ok || !p.ditemukan) {
+          pesan.textContent = 'Data tidak ditemukan. Periksa nama dan nomor WA yang terdaftar.';
+          pesan.className = 'pesan salah';
+          return;
+        }
+        modeUbah = { namaAsal: nama, waAsal: wa };
+        isiForm(p.data);
+        document.getElementById('tombolDaftar').textContent = 'Simpan Perubahan';
+        document.getElementById('tombolBatalUbah').style.display = '';
+        pesan.textContent = '';
+        tampilkanBagian('daftar');
+      })
+      .catch(function() {
+        tombol.disabled = false;
+        pesan.textContent = 'Tidak dapat terhubung ke server. Coba lagi sebentar lagi.';
+        pesan.className = 'pesan salah';
+      });
+  });
+  document.getElementById('tombolBatalUbah').addEventListener('click', function() {
+    batalUbah();
+    document.getElementById('pesanDaftar').textContent = '';
+  });
+
+  // --- Admin: verifikasi pendaftar (PIN tersimpan di Settings F11) ---
+  var pinAdmin = sessionStorage.getItem('pinAdmin') || '';
+  function keluarAdmin() {
+    pinAdmin = '';
+    sessionStorage.removeItem('pinAdmin');
+    document.getElementById('formAdminMasuk').style.display = '';
+    document.getElementById('panelAdmin').style.display = 'none';
+    document.getElementById('pinAdmin').value = '';
+  }
+  function muatDaftarAdmin() {
+    var pesan = document.getElementById('pesanAdmin');
+    pesan.textContent = 'Memuat daftar anggota...';
+    pesan.className = 'pesan';
+    fetch(WEBAPP_URL + '?action=daftarSemua&pin=' + encodeURIComponent(pinAdmin))
+      .then(function(r) { return r.json(); })
+      .then(function(p) {
+        if (!p || !p.ok) {
+          pesan.textContent = (p && p.pesan) || 'Tidak dapat memuat daftar.';
+          pesan.className = 'pesan salah';
+          keluarAdmin();
+          return;
+        }
+        pesan.textContent = '';
+        var menunggu = p.anggota.filter(function(a) { return (a.statusAnggota || '').toLowerCase() === 'menunggu'; }).length;
+        document.getElementById('ringkasanAdmin').textContent = 'Total ' + p.anggota.length + ' pendaftar — Menunggu verifikasi: ' + menunggu + ' orang.';
+        var tabel = document.getElementById('tabelAdmin');
+        if (!p.anggota.length) {
+          tabel.style.display = 'none';
+          pesan.textContent = 'Belum ada pendaftar.';
+          return;
+        }
+        document.getElementById('isiAdmin').innerHTML = p.anggota.map(function(a) {
+          var st = (a.statusAnggota || '').toLowerCase();
+          var aksi = '';
+          if (st !== 'aktif') {
+            aksi += '<button type="button" data-baris="' + a.baris + '" data-status="Aktif" style="margin:2px;padding:6px 10px;font-size:13px;width:auto">Aktifkan</button>';
+          }
+          if (st !== 'ditolak') {
+            aksi += '<button type="button" data-baris="' + a.baris + '" data-status="Ditolak" style="margin:2px;padding:6px 10px;font-size:13px;width:auto;background:#b3261e">Tolak</button>';
+          }
+          return '<tr><td>' + (a.nama || '') + '</td><td>' + (a.sekolah || '') + '</td><td>' + (a.status || '') + '</td><td>' + (a.nip || '-') + '</td><td>' + (a.pangkat || '-') + '</td><td>' + (a.noHp || '') + '</td><td>' + (a.statusAnggota || '') + '</td><td>' + aksi + '</td></tr>';
+        }).join('');
+        tabel.style.display = '';
+      })
+      .catch(function() {
+        pesan.textContent = 'Tidak dapat terhubung ke server. Coba lagi sebentar lagi.';
+        pesan.className = 'pesan salah';
+      });
+  }
+  function ubahStatusAdmin(baris, statusBaru) {
+    var pesan = document.getElementById('pesanAdmin');
+    pesan.textContent = 'Menyimpan...';
+    pesan.className = 'pesan';
+    fetch(WEBAPP_URL + '?action=ubahStatus', {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ pin: pinAdmin, baris: Number(baris), status: statusBaru })
+    })
+      .then(function(r) { return r.json(); })
+      .then(function(p) {
+        if (p && p.ok) {
+          pesan.textContent = p.pesan;
+          pesan.className = 'pesan benar';
+          muatDaftarAdmin();
+        } else {
+          pesan.textContent = (p && p.pesan) || 'Gagal mengubah status.';
+          pesan.className = 'pesan salah';
+        }
+      })
+      .catch(function() {
+        pesan.textContent = 'Tidak dapat terhubung ke server. Coba lagi sebentar lagi.';
+        pesan.className = 'pesan salah';
+      });
+  }
+  function masukAdmin() {
+    var pesan = document.getElementById('pesanAdmin');
+    pesan.textContent = 'Memeriksa PIN...';
+    pesan.className = 'pesan';
+    fetch(WEBAPP_URL + '?action=masuk&pin=' + encodeURIComponent(pinAdmin))
+      .then(function(r) { return r.json(); })
+      .then(function(p) {
+        if (p && p.ok) {
+          sessionStorage.setItem('pinAdmin', pinAdmin);
+          document.getElementById('formAdminMasuk').style.display = 'none';
+          document.getElementById('panelAdmin').style.display = '';
+          muatDaftarAdmin();
+        } else {
+          pesan.textContent = 'PIN salah. Coba lagi.';
+          pesan.className = 'pesan salah';
+        }
+      })
+      .catch(function() {
+        pesan.textContent = 'Tidak dapat terhubung ke server. Coba lagi sebentar lagi.';
+        pesan.className = 'pesan salah';
+      });
+  }
+  document.getElementById('formAdminMasuk').addEventListener('submit', function(e) {
+    e.preventDefault();
+    pinAdmin = document.getElementById('pinAdmin').value;
+    masukAdmin();
+  });
+  document.getElementById('isiAdmin').addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-baris]');
+    if (!btn) return;
+    ubahStatusAdmin(btn.getAttribute('data-baris'), btn.getAttribute('data-status'));
+  });
+  document.getElementById('tombolMuatAdmin').addEventListener('click', muatDaftarAdmin);
+  document.getElementById('tombolKeluarAdmin').addEventListener('click', function() {
+    keluarAdmin();
+    document.getElementById('pesanAdmin').textContent = '';
+  });
+  if (pinAdmin) { masukAdmin(); }
+
+  // --- Daftar Anggota ---
+  fetch(WEBAPP_URL + '?action=anggota')
+    .then(function(r) { return r.json(); })
+    .then(function(p) {
+      var pesan = document.getElementById('pesanAnggota');
+      var tabel = document.getElementById('tabelAnggota');
+      if (!p || !p.ok || !p.anggota || !p.anggota.length) {
+        pesan.textContent = 'Belum ada anggota aktif.';
+        return;
+      }
+      pesan.textContent = '';
+      document.getElementById('isiAnggota').innerHTML =
+        p.anggota.map(function(a) {
+          return '<tr><td>' + a.nama + '</td><td>' + a.sekolah + '</td><td>' + a.status + '</td></tr>';
+        }).join('');
+      tabel.style.display = '';
+    })
+    .catch(function() {
+      document.getElementById('pesanAnggota').textContent = 'Daftar anggota tidak dapat dimuat saat ini.';
+    });
+</script>
+
+</body>
+</html>

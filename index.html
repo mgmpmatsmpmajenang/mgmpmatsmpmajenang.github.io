@@ -154,9 +154,16 @@
   .kartu-kaki { text-align: center; font-size: 2.6mm; color: #666; padding: 0 3mm 2.5mm; }
   @page { size: 85.6mm 54mm; margin: 0; }
   @media print {
-    body * { visibility: hidden; }
-    #areaKartu, #areaKartu * { visibility: visible; }
-    #areaKartu { position: absolute; left: 0; top: 0; margin: 0; }
+    /* Hanya kartu yang tercetak: yang lain dihilangkan dari tata letak
+       (display:none, bukan visibility:hidden) supaya halaman cetak
+       benar-benar seukuran kartu dan tidak diperkecil browser. */
+    body { background: #fff; }
+    header, nav, footer { display: none !important; }
+    main { max-width: none; margin: 0; padding: 0; }
+    main > section:not(#kartu) { display: none !important; }
+    #kartu { background: transparent; border-radius: 0; box-shadow: none; margin: 0; padding: 0; }
+    #kartu > :not(#areaKartu) { display: none !important; }
+    #areaKartu { display: block !important; margin: 0; }
   }
 </style>
 </head>

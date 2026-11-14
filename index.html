@@ -342,6 +342,10 @@
       </div>
       <button type="button" id="tombolMuatAdmin" style="background:#64748b">Muat Ulang</button>
       <button type="button" id="tombolKeluarAdmin" style="background:#64748b">Keluar</button>
+      <hr>
+      <p><b>Sinkronkan Rekap</b> — mengisi tab Rekap dari tab Anggota supaya guru bisa Cek Data. Username: <b>guru</b>, kata sandi: <b>GR + tanggal lahir</b> (contoh GR14111980). Pendaftaran baru dan Ubah Data tersinkron otomatis.</p>
+      <button type="button" id="tombolSinkronRekap">Sinkronkan Rekap dari Anggota</button>
+      <p id="pesanSinkron" class="pesan"></p>
     </div>
   </section>
 
@@ -817,6 +821,30 @@
         pesan.className = 'pesan salah';
       });
   }
+  function sinkronRekapAdmin() {
+    var pesan = document.getElementById('pesanSinkron');
+    pesan.textContent = 'Menyinkronkan Rekap...';
+    pesan.className = 'pesan';
+    fetch(WEBAPP_URL + '?action=sinkronRekap&pin=' + encodeURIComponent(pinAdmin))
+      .then(function(r) { return r.json(); })
+      .then(function(p) {
+        if (!p || !p.ok) {
+          pesan.textContent = (p && p.pesan) || 'Gagal menyinkronkan Rekap.';
+          pesan.className = 'pesan salah';
+          return;
+        }
+        var teks = 'Rekap diperbarui: ' + p.ditambah + ' baris baru ditambahkan, ' + p.sudahAda + ' sudah ada.';
+        if (p.dilewati && p.dilewati.length) {
+          teks += ' Dilewati (tanggal lahir tidak valid): ' + p.dilewati.join(', ') + '.';
+        }
+        pesan.textContent = teks;
+        pesan.className = 'pesan benar';
+      })
+      .catch(function() {
+        pesan.textContent = 'Tidak dapat terhubung ke server. Coba lagi sebentar lagi.';
+        pesan.className = 'pesan salah';
+      });
+  }
   function masukAdmin() {
     var pesan = document.getElementById('pesanAdmin');
     pesan.textContent = 'Memeriksa PIN...';
@@ -850,6 +878,7 @@
     ubahStatusAdmin(btn.getAttribute('data-baris'), btn.getAttribute('data-status'));
   });
   document.getElementById('tombolMuatAdmin').addEventListener('click', muatDaftarAdmin);
+  document.getElementById('tombolSinkronRekap').addEventListener('click', sinkronRekapAdmin);
   document.getElementById('tombolKeluarAdmin').addEventListener('click', function() {
     keluarAdmin();
     document.getElementById('pesanAdmin').textContent = '';

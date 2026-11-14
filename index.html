@@ -86,6 +86,9 @@
   }
   .hasil h3 { margin: 0 0 10px; color: #1d4ed8; font-size: 16px; }
   .hasil p { margin: 8px 0; font-size: 15px; word-wrap: break-word; }
+  .baris-data { margin: 12px 0; }
+  .label-data { color: #1d4ed8; font-weight: bold; font-size: 14px; }
+  .nilai-data { font-size: 15px; word-wrap: break-word; }
   table { width: 100%; border-collapse: collapse; font-size: 15px; }
   th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #e5e7eb; }
   th { color: #1d4ed8; }
@@ -458,6 +461,11 @@
   });
 
   // --- Cek Data ---
+  function escapeHtml(teks) {
+    return String(teks == null ? '' : teks)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
   document.getElementById('formCek').addEventListener('submit', function(e) {
     e.preventDefault();
     var input1 = document.getElementById('input1').value.trim();
@@ -482,7 +490,7 @@
         var html = '';
         p.data.forEach(function(nilai, i) {
           var label = (p.label && p.label[i]) || ('Data ' + (i + 1));
-          html += '<p><b>' + label + ':</b> ' + nilai + '</p>';
+          html += '<div class="baris-data"><div class="label-data">' + escapeHtml(label) + '</div><div class="nilai-data">' + escapeHtml(nilai) + '</div></div>';
         });
         document.getElementById('isiHasil').innerHTML = html;
         hasil.style.display = 'block';

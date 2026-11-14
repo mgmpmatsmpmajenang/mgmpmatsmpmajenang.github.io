@@ -21,23 +21,37 @@
   header h1 { margin: 0 0 6px; font-size: 26px; }
   header p { margin: 0; font-size: 15px; }
   nav {
-    background: #1e3a8a;
-    padding: 10px 16px;
-    text-align: center;
-    position: sticky;
-    top: 0;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 16px 16px 4px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
   }
   nav a {
-    color: #fff;
+    background: #fff;
+    color: #1d4ed8;
     text-decoration: none;
-    margin: 0 4px;
-    padding: 6px 10px;
-    font-size: 15px;
+    padding: 12px 6px;
+    font-size: 14px;
     font-weight: bold;
-    border-radius: 6px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
   }
-  nav a:hover { text-decoration: underline; }
-  nav a.aktif { background: rgba(255, 255, 255, 0.25); }
+  nav a .ikon { font-size: 26px; line-height: 1; }
+  nav a:hover { box-shadow: 0 4px 14px rgba(0,0,0,.15); }
+  nav a.aktif { background: #2563eb; color: #fff; }
+  @media (max-width: 719px) {
+    nav a:last-child { grid-column: 1 / -1; flex-direction: row; justify-content: center; }
+  }
+  @media (min-width: 720px) {
+    nav { grid-template-columns: repeat(7, 1fr); }
+  }
   main { max-width: 760px; margin: 0 auto; padding: 16px; }
   section {
     background: #fff;
@@ -154,13 +168,13 @@
 </header>
 
 <nav>
-  <a href="#cek">Cek Data</a>
-  <a href="#daftar">Pendaftaran</a>
-  <a href="#ubah">Ubah Data</a>
-  <a href="#anggota">Daftar Anggota</a>
-  <a href="#rekap">Rekap</a>
-  <a href="#kartu">Cetak Kartu</a>
-  <a href="#admin">Admin</a>
+  <a href="#cek"><span class="ikon">&#128269;</span>Cek Data</a>
+  <a href="#daftar"><span class="ikon">&#128221;</span>Pendaftaran</a>
+  <a href="#ubah"><span class="ikon">&#9999;&#65039;</span>Ubah Data</a>
+  <a href="#anggota"><span class="ikon">&#128101;</span>Daftar Anggota</a>
+  <a href="#rekap"><span class="ikon">&#128202;</span>Rekap</a>
+  <a href="#kartu"><span class="ikon">&#128179;</span>Cetak Kartu</a>
+  <a href="#admin"><span class="ikon">&#128272;</span>Admin</a>
 </nav>
 
 <main>

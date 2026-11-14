@@ -86,6 +86,11 @@
   }
   .hasil h3 { margin: 0 0 10px; color: #1d4ed8; font-size: 16px; }
   .hasil p { margin: 8px 0; font-size: 15px; word-wrap: break-word; }
+  .judul-rekap { text-align: center; font-size: 18px; margin: 0 0 4px; color: #111; }
+  .update-rekap { text-align: right; font-style: italic; font-size: 13px; color: #666; margin: 0 0 12px; }
+  #tabelRekap th, #tabelRekap td { border: 1px solid #93c5fd; }
+  #tabelRekap th { background: #bfdbfe; color: #111; text-align: center; }
+  #tabelRekap td:first-child, #tabelRekap td:last-child { text-align: center; }
   .baris-data { margin: 12px 0; }
   .label-data { color: #1d4ed8; font-weight: bold; font-size: 14px; }
   .nilai-data { font-size: 15px; word-wrap: break-word; }
@@ -127,6 +132,7 @@
   <a href="#daftar">Pendaftaran</a>
   <a href="#ubah">Ubah Data</a>
   <a href="#anggota">Daftar Anggota</a>
+  <a href="#rekap">Rekap</a>
   <a href="#admin">Admin</a>
 </nav>
 
@@ -326,6 +332,21 @@
     </table>
   </section>
 
+  <section id="rekap">
+    <h3 class="judul-rekap">GURU MATEMATIKA SMP<br>KOMDA MAJENANG</h3>
+    <p class="update-rekap">Update : <span id="tanggalRekap"></span></p>
+    <div style="overflow-x:auto">
+      <table id="tabelRekap" style="display:none">
+        <thead>
+          <tr><th style="width:48px">NO</th><th>NAMA SEKOLAH</th><th style="width:110px">JUMLAH GURU</th></tr>
+        </thead>
+        <tbody id="isiRekap"></tbody>
+      </table>
+    </div>
+    <p id="pesanRekap" class="pesan">Memuat rekap...</p>
+    <p id="totalRekap" style="font-size:14px"></p>
+  </section>
+
   <section id="admin">
     <h2>Admin</h2>
     <p>Khusus admin MGMP. Masukkan PIN Admin untuk melihat dan memverifikasi pendaftar.</p>
@@ -373,7 +394,7 @@
   var WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzHSNmTmGKIvfIoeWjLnheAgt5Wa9zbfn0yTuKFRKmq1q_OEBaR1F-boz2sqNwi0eHu/exec';
 
   // --- Menu: tiap menu menampilkan hanya bagiannya sendiri ---
-  var BAGIAN = ['cek', 'daftar', 'ubah', 'anggota', 'admin'];
+  var BAGIAN = ['cek', 'daftar', 'ubah', 'anggota', 'rekap', 'admin'];
   function tampilkanBagian(id) {
     BAGIAN.forEach(function(b) {
       document.getElementById(b).style.display = (b === id) ? '' : 'none';
@@ -383,6 +404,7 @@
     });
     try { history.replaceState(null, '', '#' + id); } catch (e) {}
     window.scrollTo(0, 0);
+    if (id === 'rekap') muatRekap();
   }
   var modeUbah = null; // {namaAsal, waAsal} bila sedang mengubah data
   function batalUbah() {
@@ -915,6 +937,38 @@
     .catch(function() {
       document.getElementById('pesanAnggota').textContent = 'Daftar anggota tidak dapat dimuat saat ini.';
     });
+
+  // --- Rekap guru per sekolah ---
+  function tanggalIndonesia(tgl) {
+    var bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    return tgl.getDate() + ' ' + bulan[tgl.getMonth()] + ' ' + tgl.getFullYear();
+  }
+  function muatRekap() {
+    var pesan = document.getElementById('pesanRekap');
+    var tabel = document.getElementById('tabelRekap');
+    document.getElementById('tanggalRekap').textContent = tanggalIndonesia(new Date());
+    pesan.textContent = 'Memuat rekap...';
+    tabel.style.display = 'none';
+    document.getElementById('totalRekap').textContent = '';
+    fetch(WEBAPP_URL + '?action=rekap')
+      .then(function(r) { return r.json(); })
+      .then(function(p) {
+        if (!p || !p.ok || !p.rekap || !p.rekap.length) {
+          pesan.textContent = 'Belum ada anggota aktif.';
+          return;
+        }
+        pesan.textContent = '';
+        document.getElementById('isiRekap').innerHTML = p.rekap.map(function(r, i) {
+          return '<tr><td>' + (i + 1) + '</td><td>' + escapeHtml(r.sekolah) + '</td><td>' + r.jumlah + '</td></tr>';
+        }).join('');
+        tabel.style.display = '';
+        var total = p.rekap.reduce(function(s, r) { return s + r.jumlah; }, 0);
+        document.getElementById('totalRekap').textContent = 'Total ' + total + ' guru dari ' + p.rekap.length + ' sekolah.';
+      })
+      .catch(function() {
+        pesan.textContent = 'Rekap tidak dapat dimuat saat ini.';
+      });
+  }
 </script>
 
 </body>

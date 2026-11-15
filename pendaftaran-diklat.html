@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pendaftaran Diklat PM — MGMP Matematika Komda Majenang</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: "Times New Roman", Times, serif; margin: 0; background: #f1f5f9; color: #111827; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 16px; }
+  .kartu { background: #fff; border-radius: 12px; padding: 22px; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+  .kop { text-align: center; margin-bottom: 6px; }
+  .kop .org { font-size: 15px; font-weight: bold; color: #1d4ed8; letter-spacing: .5px; }
+  .kop .sub { font-size: 13px; color: #475569; }
+  h1 { font-size: 21px; text-align: center; color: #0f172a; margin: 14px 0 4px; line-height: 1.3; }
+  .acara { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 12px 14px; font-size: 15px; line-height: 1.7; margin: 14px 0 18px; }
+  .acara b { color: #1d4ed8; }
+  label { display: block; font-size: 15px; font-weight: bold; color: #2563eb; margin: 16px 0 5px; }
+  label .wajib { color: #dc2626; }
+  label .opsional { color: #64748b; font-weight: normal; font-size: 13px; }
+  input, select, textarea { width: 100%; padding: 10px 12px; border: 1.5px solid #d1d5db; border-radius: 10px; font-size: 15px; font-family: "Times New Roman", Times, serif; background: #fff; }
+  input:focus, select:focus { outline: none; border-color: #2563eb; }
+  .hint { font-size: 13px; color: #64748b; margin-top: 4px; }
+  .tombol { width: 100%; margin-top: 22px; padding: 13px; font-size: 17px; font-weight: bold; color: #fff; background: #2563eb; border: none; border-radius: 10px; cursor: pointer; font-family: "Times New Roman", Times, serif; }
+  .tombol:disabled { background: #93c5fd; cursor: wait; }
+  .pesan { margin-top: 16px; padding: 12px 14px; border-radius: 10px; font-size: 15px; line-height: 1.6; display: none; }
+  .pesan.gagal { display: block; background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+  .pesan.sukses { display: block; background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+  .pesan.cadangan { display: block; background: #fefce8; border: 1px solid #fde68a; color: #854d0e; }
+  .sukses-nama { font-size: 18px; font-weight: bold; }
+  .kaki { text-align: center; font-size: 13px; color: #64748b; margin-top: 18px; line-height: 1.6; }
+  .sembunyi { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kartu">
+    <div class="kop">
+      <div class="org">MGMP MATEMATIKA SMP KOMDA MAJENANG</div>
+      <div class="sub">Kabupaten Cilacap</div>
+    </div>
+    <h1>Form Pendaftaran Diklat</h1>
+    <div class="acara">
+      <b>Kegiatan:</b> Pengimbasan dan Berbagi Praktik Baik Diklat Pembelajaran Mendalam Berbasis Kelompok<br>
+      <b>Hari/Tanggal:</b> Rabu, 18 November 2026<br>
+      <b>Waktu:</b> 08.00 s.d. 12.00 WIB<br>
+      <b>Tempat:</b> Aula SMP Negeri 1 Majenang, Kabupaten Cilacap<br>
+      <b>Sasaran:</b> Perwakilan guru matematika SMP Negeri/Swasta se-Komda Majenang
+    </div>
+
+    <div id="pesan-cadangan" class="pesan cadangan"></div>
+
+    <form id="form-daftar" novalidate>
+      <label for="nama">Nama Lengkap <span class="wajib">*</span></label>
+      <input type="text" id="nama" placeholder="Contoh: Wartam, S.Pd." required>
+      <div class="hint">Tulis nama beserta gelar, seperti yang akan dicetak di sertifikat.</div>
+
+      <label for="nip">NIP <span class="opsional">(kosongkan bila tidak ada)</span></label>
+      <input type="text" id="nip" inputmode="numeric" placeholder="Contoh: 197407042008011008">
+
+      <label for="sekolah">Sekolah <span class="wajib">*</span></label>
+      <select id="sekolah" required>
+        <option value="">— Pilih sekolah —</option>
+        <option>SMP ALMA ATA</option>
+        <option>SMP ANAK SOLEH WANAREJA</option>
+        <option>SMP AS SA'IDIYYAH WANAREJA</option>
+        <option>SMP DARUSSALAM CIMANGGU</option>
+        <option>SMP DIPONEGORO CIMANGGU</option>
+        <option>SMP DIPONEGORO MAJENANG</option>
+        <option>SMP ISLAM CARUY</option>
+        <option>SMP ISLAM MAJENANG</option>
+        <option>SMP IT AL HAMBRA CIMANGGU</option>
+        <option>SMP MA'ARIF NU 01 WANAREJA</option>
+        <option>SMP MAARIF NU 2 MAJENANG</option>
+        <option>SMP MAARIF NU CIMANGGU</option>
+        <option>SMP MA`ARIF NU 1 MAJENANG</option>
+        <option>SMP MUHAMMADIYAH 1 DAYEUHLUHUR</option>
+        <option>SMP MUHAMMADIYAH 1 WANAREJA</option>
+        <option>SMP MUHAMMADIYAH 2 DAYEUHLUHUR</option>
+        <option>SMP MUHAMMADIYAH 2 WANAREJA</option>
+        <option>SMP MUHAMMADIYAH 3 DAYEUHLUHUR</option>
+        <option>SMP MUHAMMADIYAH CIMANGGU</option>
+        <option>SMP MUHAMMADIYAH MAJENANG</option>
+        <option>SMP NEGERI 1 CIMANGGU</option>
+        <option>SMP NEGERI 1 DAYEUHLUHUR</option>
+        <option>SMP NEGERI 1 MAJENANG</option>
+        <option>SMP NEGERI 1 WANAREJA</option>
+        <option>SMP NEGERI 2 CIMANGGU</option>
+        <option>SMP NEGERI 2 DAYEUHLUHUR</option>
+        <option>SMP NEGERI 2 MAJENANG</option>
+        <option>SMP NEGERI 2 WANAREJA</option>
+        <option>SMP NEGERI 3 MAJENANG</option>
+        <option>SMP NEGERI 3 WANAREJA</option>
+        <option>SMP NEGERI 4 MAJENANG</option>
+        <option>SMP NEGERI SATAP 4 CIMANGGU</option>
+        <option>SMP NEGERI SATAP 5 MAJENANG</option>
+        <option>SMP NEGERI SATAP 6 MAJENANG</option>
+        <option>SMP NEGERI SATAP 7 MAJENANG</option>
+        <option>SMP NEGERI SATU ATAP 1 CIMANGGU</option>
+        <option>SMP NEGERI SATU ATAP 1 WANAREJA</option>
+        <option>SMP PGRI 12 DAYEUHLUHUR</option>
+        <option>SMP PGRI 18 CIMANGGU</option>
+        <option>SMP PGRI 7 WANAREJA</option>
+        <option>SMP PGRI CARUY</option>
+        <option>SMP RADEN FATAH CIMANGGU</option>
+        <option>SMP TERPADU SABILUNNAJAH MAJENANG</option>
+        <option>SMP YOS SUDARSO MAJENANG</option>
+        <option value="Lainnya">Lainnya (tulis nama sekolah di bawah)</option>
+      </select>
+      <div id="bungkus-sekolah-lain" class="sembunyi">
+        <input type="text" id="sekolah-lain" placeholder="Contoh: SMP Harapan Bangsa Majenang" style="margin-top:8px">
+      </div>
+
+      <label for="wa">No. HP / WhatsApp <span class="wajib">*</span></label>
+      <input type="tel" id="wa" placeholder="Contoh: 081234567890" required>
+      <div class="hint">Nomor aktif, untuk konfirmasi panitia.</div>
+
+      <label for="email">Email <span class="opsional">(opsional)</span></label>
+      <input type="email" id="email" placeholder="Contoh: nama@gmail.com">
+
+      <label for="status">Status Kepegawaian <span class="wajib">*</span></label>
+      <select id="status" required>
+        <option value="">— Pilih status —</option>
+        <option>PNS</option>
+        <option>PPPK</option>
+        <option>Honorer</option>
+        <option>Lainnya</option>
+      </select>
+
+      <button type="submit" class="tombol" id="btn-daftar">Daftar</button>
+      <div id="pesan" class="pesan"></div>
+    </form>
+
+    <div id="layar-sukses" class="sembunyi">
+      <div class="pesan sukses" style="display:block">
+        <div class="sukses-nama">✔ Pendaftaran berhasil, <span id="sukses-nama"></span>!</div>
+        <div style="margin-top:8px">Sekolah: <b id="sukses-sekolah"></b></div>
+        <div style="margin-top:10px">Sampai jumpa di Aula SMP Negeri 1 Majenang, <b>Rabu 18 November 2026 pukul 08.00 WIB</b>. Harap datang tepat waktu dan membawa alat tulis.</div>
+        <div style="margin-top:10px">Simpan tangkapan layar halaman ini sebagai bukti pendaftaran.</div>
+      </div>
+    </div>
+
+    <div class="kaki">Panitia Pelaksana Diklat Pembelajaran Mendalam Berbasis Kelompok<br>MGMP Matematika SMP Komda Majenang — Kabupaten Cilacap</div>
+  </div>
+</div>
+<script>
+// Isi dengan URL Web App Apps Script setelah deploy (lihat PANDUAN.txt).
+// Bila masih kosong, form memakai mode cadangan: pendaftaran dikirim lewat WhatsApp panitia.
+var WEBAPP_URL = "";
+var WA_PANITIA = "628156095823"; // No. WA Ketua Pelaksana (Wartam)
+
+function el(id){ return document.getElementById(id); }
+function tampilPesan(teks, jenis){
+  var p = el("pesan");
+  p.className = "pesan " + jenis;
+  p.innerHTML = teks;
+}
+function normalisasiWa(v){
+  var d = String(v || "").replace(/[^0-9]/g, "");
+  if(d.indexOf("62") === 0) return d;
+  if(d.charAt(0) === "0") return "62" + d.slice(1);
+  return d;
+}
+function ambilSekolah(){
+  var s = el("sekolah").value;
+  if(s === "Lainnya") return el("sekolah-lain").value.trim();
+  return s;
+}
+
+el("sekolah").addEventListener("change", function(){
+  el("bungkus-sekolah-lain").classList.toggle("sembunyi", el("sekolah").value !== "Lainnya");
+});
+
+if(!WEBAPP_URL){
+  el("pesan-cadangan").innerHTML = "ℹ️ Pendaftaran saat ini dikirim lewat WhatsApp panitia. Setelah Bapak/Ibu menekan tombol Daftar, WhatsApp akan terbuka — tekan Kirim untuk menyelesaikan pendaftaran.";
+}
+
+el("form-daftar").addEventListener("submit", function(ev){
+  ev.preventDefault();
+  var nama = el("nama").value.trim();
+  var nip = el("nip").value.trim();
+  var sekolah = ambilSekolah();
+  var wa = normalisasiWa(el("wa").value);
+  var email = el("email").value.trim();
+  var status = el("status").value;
+  if(!nama){ tampilPesan("Nama lengkap wajib diisi.", "gagal"); return; }
+  if(!sekolah){ tampilPesan("Sekolah wajib dipilih.", "gagal"); return; }
+  if(wa.length < 10 || wa.length > 15){ tampilPesan("No. HP / WhatsApp tidak valid. Contoh: 081234567890.", "gagal"); return; }
+  if(email && email.indexOf("@") < 1){ tampilPesan("Alamat email tidak valid.", "gagal"); return; }
+  if(!status){ tampilPesan("Status kepegawaian wajib dipilih.", "gagal"); return; }
+
+  var data = { nama: nama, nip: nip, sekolah: sekolah, wa: wa, email: email, status: status };
+  var btn = el("btn-daftar");
+  btn.disabled = true;
+  btn.textContent = "Mengirim…";
+
+  function selesai(){
+    el("form-daftar").classList.add("sembunyi");
+    el("sukses-nama").textContent = nama;
+    el("sukses-sekolah").textContent = sekolah;
+    el("layar-sukses").classList.remove("sembunyi");
+    window.scrollTo(0, 0);
+  }
+
+  if(!WEBAPP_URL){
+    // Mode cadangan: kirim lewat WhatsApp panitia.
+    var teks = "Pendaftaran Diklat PM MGMP Matematika Komda Majenang (Rabu 18 Nov 2026)%0A"
+      + "Nama: " + encodeURIComponent(nama) + "%0A"
+      + "NIP: " + encodeURIComponent(nip || "-") + "%0A"
+      + "Sekolah: " + encodeURIComponent(sekolah) + "%0A"
+      + "No. HP/WA: " + encodeURIComponent(wa) + "%0A"
+      + "Email: " + encodeURIComponent(email || "-") + "%0A"
+      + "Status: " + encodeURIComponent(status);
+    window.open("https://wa.me/" + WA_PANITIA + "?text=" + teks, "_blank");
+    btn.disabled = false;
+    btn.textContent = "Daftar";
+    tampilPesan("WhatsApp panitia sudah terbuka — tekan <b>Kirim</b> di WhatsApp untuk menyelesaikan pendaftaran. Setelah terkirim, halaman ini dapat ditutup.", "sukses");
+    return;
+  }
+
+  fetch(WEBAPP_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({ action: "simpan", data: data })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(j){
+    btn.disabled = false;
+    btn.textContent = "Daftar";
+    if(j && j.ok){ selesai(); }
+    else { tampilPesan((j && j.error) || "Pendaftaran gagal. Silakan coba lagi.", "gagal"); }
+  })
+  .catch(function(){
+    btn.disabled = false;
+    btn.textContent = "Daftar";
+    tampilPesan("Tidak dapat terhubung ke server pendaftaran. Periksa koneksi internet, lalu coba lagi.", "gagal");
+  });
+});
+</script>
+</body>
+</html>

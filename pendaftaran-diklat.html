@@ -15,6 +15,9 @@
   h1 { font-size: 21px; text-align: center; color: #0f172a; margin: 14px 0 4px; line-height: 1.3; }
   .acara { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 12px 14px; font-size: 15px; line-height: 1.7; margin: 14px 0 18px; }
   .acara b { color: #1d4ed8; }
+  .acara table { border-collapse: collapse; width: 100%; }
+  .acara td { vertical-align: top; padding: 2px 0; font-size: 15px; line-height: 1.6; }
+  .acara td:first-child { white-space: nowrap; text-align: right; padding-right: 8px; }
   label { display: block; font-size: 15px; font-weight: bold; color: #2563eb; margin: 16px 0 5px; }
   label .wajib { color: #dc2626; }
   label .opsional { color: #64748b; font-weight: normal; font-size: 13px; }
@@ -35,13 +38,12 @@
 <body>
 <div class="wrap">
   <div class="kartu">
-    <div class="kop">
-      <div class="sub">Kabupaten Cilacap</div>
-    </div>
     <h1>Form Pendaftaran</h1>
     <div class="acara">
-      <b>Kegiatan:</b> Pengimbasan dan Berbagi Praktik Baik Diklat PM Berbasis Inkuiri Kolaboratif<br>
-      <b>Hari/Tanggal:</b> Rabu, 18 November 2026<br>
+      <table>
+        <tr><td><b>Kegiatan:</b></td><td>Pengimbasan dan Berbagi Praktik Baik Diklat PM Berbasis Inkuiri Kolaboratif</td></tr>
+        <tr><td><b>Hari/Tanggal:</b></td><td>Rabu, 18 November 2026</td></tr>
+      </table>
     </div>
 
     <form id="form-daftar" novalidate>

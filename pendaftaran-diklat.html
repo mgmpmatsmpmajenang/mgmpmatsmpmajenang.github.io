@@ -17,7 +17,7 @@
   .acara b { color: #1d4ed8; }
   .acara table { border-collapse: collapse; width: 100%; }
   .acara td { vertical-align: top; padding: 2px 0; font-size: 15px; line-height: 1.6; }
-  .acara td:first-child { white-space: nowrap; text-align: right; padding-right: 8px; }
+  .acara td:first-child { white-space: nowrap; text-align: left; padding-right: 8px; }
   label { display: block; font-size: 15px; font-weight: bold; color: #2563eb; margin: 16px 0 5px; }
   label .wajib { color: #dc2626; }
   label .opsional { color: #64748b; font-weight: normal; font-size: 13px; }
@@ -48,11 +48,11 @@
 
     <form id="form-daftar" novalidate>
       <label for="nama">Nama Lengkap <span class="wajib">*</span></label>
-      <input type="text" id="nama" placeholder="Contoh: Wartam, S.Pd." required>
+      <input type="text" id="nama" placeholder="Contoh: Budi Santoso, S.Pd." required>
       <div class="hint">Tulis nama beserta gelar, seperti yang akan dicetak di sertifikat.</div>
 
       <label for="nip">NIP <span class="opsional">(kosongkan bila tidak ada)</span></label>
-      <input type="text" id="nip" inputmode="numeric" placeholder="Contoh: 197407042008011008">
+      <input type="text" id="nip" inputmode="numeric" placeholder="Contoh: 198001012010011001">
 
       <label for="sekolah">Sekolah <span class="wajib">*</span></label>
       <select id="sekolah" required>

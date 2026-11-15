@@ -36,19 +36,13 @@
 <div class="wrap">
   <div class="kartu">
     <div class="kop">
-      <div class="org">MGMP MATEMATIKA SMP KOMDA MAJENANG</div>
       <div class="sub">Kabupaten Cilacap</div>
     </div>
-    <h1>Form Pendaftaran Diklat</h1>
+    <h1>Form Pendaftaran</h1>
     <div class="acara">
-      <b>Kegiatan:</b> Pengimbasan dan Berbagi Praktik Baik Diklat Pembelajaran Mendalam Berbasis Kelompok<br>
+      <b>Kegiatan:</b> Pengimbasan dan Berbagi Praktik Baik Diklat PM Berbasis Inkuiri Kolaboratif<br>
       <b>Hari/Tanggal:</b> Rabu, 18 November 2026<br>
-      <b>Waktu:</b> 08.00 s.d. 12.00 WIB<br>
-      <b>Tempat:</b> Aula SMP Negeri 1 Majenang, Kabupaten Cilacap<br>
-      <b>Sasaran:</b> Perwakilan guru matematika SMP Negeri/Swasta se-Komda Majenang
     </div>
-
-    <div id="pesan-cadangan" class="pesan cadangan"></div>
 
     <form id="form-daftar" novalidate>
       <label for="nama">Nama Lengkap <span class="wajib">*</span></label>
@@ -115,18 +109,6 @@
       <input type="tel" id="wa" placeholder="Contoh: 081234567890" required>
       <div class="hint">Nomor aktif, untuk konfirmasi panitia.</div>
 
-      <label for="email">Email <span class="opsional">(opsional)</span></label>
-      <input type="email" id="email" placeholder="Contoh: nama@gmail.com">
-
-      <label for="status">Status Kepegawaian <span class="wajib">*</span></label>
-      <select id="status" required>
-        <option value="">— Pilih status —</option>
-        <option>PNS</option>
-        <option>PPPK</option>
-        <option>Honorer</option>
-        <option>Lainnya</option>
-      </select>
-
       <button type="submit" class="tombol" id="btn-daftar">Daftar</button>
       <div id="pesan" class="pesan"></div>
     </form>
@@ -140,7 +122,7 @@
       </div>
     </div>
 
-    <div class="kaki">Panitia Pelaksana Diklat Pembelajaran Mendalam Berbasis Kelompok<br>MGMP Matematika SMP Komda Majenang — Kabupaten Cilacap</div>
+    <div class="kaki">MGMP Matematika SMP Komda Majenang — Kabupaten Cilacap</div>
   </div>
 </div>
 <script>
@@ -171,25 +153,17 @@ el("sekolah").addEventListener("change", function(){
   el("bungkus-sekolah-lain").classList.toggle("sembunyi", el("sekolah").value !== "Lainnya");
 });
 
-if(!WEBAPP_URL){
-  el("pesan-cadangan").innerHTML = "ℹ️ Pendaftaran saat ini dikirim lewat WhatsApp panitia. Setelah Bapak/Ibu menekan tombol Daftar, WhatsApp akan terbuka — tekan Kirim untuk menyelesaikan pendaftaran.";
-}
-
 el("form-daftar").addEventListener("submit", function(ev){
   ev.preventDefault();
   var nama = el("nama").value.trim();
   var nip = el("nip").value.trim();
   var sekolah = ambilSekolah();
   var wa = normalisasiWa(el("wa").value);
-  var email = el("email").value.trim();
-  var status = el("status").value;
   if(!nama){ tampilPesan("Nama lengkap wajib diisi.", "gagal"); return; }
   if(!sekolah){ tampilPesan("Sekolah wajib dipilih.", "gagal"); return; }
   if(wa.length < 10 || wa.length > 15){ tampilPesan("No. HP / WhatsApp tidak valid. Contoh: 081234567890.", "gagal"); return; }
-  if(email && email.indexOf("@") < 1){ tampilPesan("Alamat email tidak valid.", "gagal"); return; }
-  if(!status){ tampilPesan("Status kepegawaian wajib dipilih.", "gagal"); return; }
 
-  var data = { nama: nama, nip: nip, sekolah: sekolah, wa: wa, email: email, status: status };
+  var data = { nama: nama, nip: nip, sekolah: sekolah, wa: wa };
   var btn = el("btn-daftar");
   btn.disabled = true;
   btn.textContent = "Mengirim…";
@@ -208,9 +182,7 @@ el("form-daftar").addEventListener("submit", function(ev){
       + "Nama: " + encodeURIComponent(nama) + "%0A"
       + "NIP: " + encodeURIComponent(nip || "-") + "%0A"
       + "Sekolah: " + encodeURIComponent(sekolah) + "%0A"
-      + "No. HP/WA: " + encodeURIComponent(wa) + "%0A"
-      + "Email: " + encodeURIComponent(email || "-") + "%0A"
-      + "Status: " + encodeURIComponent(status);
+      + "No. HP/WA: " + encodeURIComponent(wa);
     window.open("https://wa.me/" + WA_PANITIA + "?text=" + teks, "_blank");
     btn.disabled = false;
     btn.textContent = "Daftar";

@@ -50,7 +50,7 @@
     nav a:last-child { grid-column: 1 / -1; flex-direction: row; justify-content: center; }
   }
   @media (min-width: 720px) {
-    nav { grid-template-columns: repeat(7, 1fr); }
+    nav { grid-template-columns: repeat(8, 1fr); }
   }
   main { max-width: 760px; margin: 0 auto; padding: 16px; }
   section {
@@ -181,6 +181,7 @@
   <a href="#anggota"><span class="ikon">&#128101;</span>Daftar Anggota</a>
   <a href="#rekap"><span class="ikon">&#128202;</span>Rekap</a>
   <a href="#kartu"><span class="ikon">&#128179;</span>Cetak Kartu</a>
+  <a href="chat.html"><span class="ikon">&#128172;</span>CHAT</a>
   <a href="#admin"><span class="ikon">&#128272;</span>Admin</a>
 </nav>
 
@@ -505,8 +506,10 @@
   }
   document.querySelectorAll('nav a').forEach(function(a) {
     a.addEventListener('click', function(e) {
+      var href = a.getAttribute('href');
+      if (href.charAt(0) !== '#') return; // tautan halaman lain (mis. CHAT) — biarkan peramban membuka
       e.preventDefault();
-      var tujuan = a.getAttribute('href').slice(1);
+      var tujuan = href.slice(1);
       if (tujuan === 'daftar' && modeUbah) batalUbah();
       tampilkanBagian(tujuan);
     });
